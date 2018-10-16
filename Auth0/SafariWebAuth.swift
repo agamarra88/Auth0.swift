@@ -120,7 +120,7 @@ class SafariWebAuth: WebAuth {
         let authorizeURL = self.buildAuthorizeURL(withRedirectURL: redirectURL, defaults: handler.defaults, state: state)
 
         #if swift(>=3.2)
-        if #available(iOS 11.0, *), self.authenticationSession {
+        if #available(iOS 13.0, *), self.authenticationSession {
             let session = SafariAuthenticationSession(authorizeURL: authorizeURL, redirectURL: redirectURL, state: state, handler: handler, finish: callback, logger: logger)
             logger?.trace(url: authorizeURL, source: "SafariAuthenticationSession")
             self.storage.store(session)
@@ -207,7 +207,7 @@ class SafariWebAuth: WebAuth {
     func clearSession(federated: Bool, callback: @escaping (Bool) -> Void) {
         let logoutURL = federated ? URL(string: "/v2/logout?federated", relativeTo: self.url)! : URL(string: "/v2/logout", relativeTo: self.url)!
         #if swift(>=3.2)
-        if #available(iOS 11.0, *), self.authenticationSession {
+        if #available(iOS 13.0, *), self.authenticationSession {
             let returnTo = URLQueryItem(name: "returnTo", value: self.redirectURL?.absoluteString)
             let clientId = URLQueryItem(name: "client_id", value: self.clientId)
             var components = URLComponents(url: logoutURL, resolvingAgainstBaseURL: true)
